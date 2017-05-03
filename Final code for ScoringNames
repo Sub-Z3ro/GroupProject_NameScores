@@ -1,0 +1,109 @@
+import java.io.*;
+import java.util.*;
+
+// Hugo- made public class, in the class I made an array of strings,
+	//then had a print function and a read function.
+
+public class ScoringNames {
+	BufferedReader x = null;
+	String location = "names.txt";
+	
+	ArrayList<String> names = new ArrayList<String>();
+	static ArrayList<Integer> scores = new ArrayList<Integer>();
+	static int name[];
+	
+	public void fillName(){
+		for (int x = 0; x < name.length; x++){
+			name[x] = scores.get(x) * (x+1);
+		}
+	}
+	
+	public void printname(){
+		for (int x = 0; x < name.length; x++)
+			System.out.print(name[x] + ", ");
+	}
+	
+	public void readFile(){ //Opens file, and prints every line.
+		try{
+			x = new BufferedReader(new FileReader(location));
+		} catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		try{
+			String name = x.readLine();
+			while(name != null){
+				//System.out.println(name);
+				names.add(name);
+				name = x.readLine();
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+       
+	//Parth-Sorted the names into alphabetical order.
+	
+	public void sortNames(){ //Sort names array in alphabetical order
+		Collections.sort(names);
+	}
+	
+	public void printNames(){
+		for(String counter: names)
+			System.out.println(counter);
+	}
+	
+	public int alphValue(char x){
+		return (x - 'A' + 1);
+	}
+	
+	public void returnSize(){
+		System.out.println(names.size());
+	}
+	
+	public int nameScore(String name){
+		int score = 0;
+		char[] tempName = name.toCharArray();
+		for (char i : tempName){
+				score += alphValue(i);
+			}
+				
+		return score;
+	}
+	
+	public void addScores(){
+		for(String x : names){
+			scores.add(nameScore(x));
+		}
+	}
+
+	public void printScores(){
+		for(int counter: scores)
+			System.out.println(counter);
+	}
+	
+	public int totalname(int[] x){
+		int sum = 0;
+		for(int i = 0; i < x.length; i++){
+			sum += x[i];
+		}
+		return sum;
+	}
+
+	//Nova called 
+	
+	public static void main(String[] args) {
+		ScoringNames alph = new ScoringNames(); 
+		alph.readFile(); 
+		alph.sortNames(); 
+		
+		alph.addScores(); 
+	
+		name = new int[scores.size()];
+		alph.fillName(); 
+		
+		System.out.println("The sum total of all name scores is: " + 
+							alph.totalname(name));
+	}
+
+}
